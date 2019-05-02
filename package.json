@@ -1,0 +1,20 @@
+{
+  "name": "slackbot",
+  "version": "1.0.0",
+  "description": "a slack bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "slack",
+    "bot",
+    "log"
+  ],
+  "author": "Bhagat",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  }
+}
