@@ -62,14 +62,14 @@ process.openStdin().addListener("data", data => {
                 });
                 break;
             case '..':
-                curDir = curDir.split('\\').splice(0, curDir.split('\\').length - 1).join('\\');
+                curDir = (proccess.platform === "win32"? curDir.split('\\'): curDir.split("/")).splice(0, curDir.split('\\').length - 1).join('\\');
                 break;
 
             default:
                 if(dirCommand.substring(0, 2) === 'C:')
                     curDir = dirCommand;
                 else
-                    curDir += "\\" + dirCommand;
+                    curDir += proccess.platform === "win32"? "\\" : "/" + dirCommand;
         }
 
         exec('ls', {
