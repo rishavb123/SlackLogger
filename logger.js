@@ -3,8 +3,14 @@ const { exec } = require('child_process');
 
 const { url } = require('./url');
 
+const title = process.argv[2];
+
+
 console.log();
-console.log("Slack Logger is now on");
+if(title)
+    console.log("Slack Logger is now on with the title " + title);
+else
+    console.log("Slack Logger is now on");
 console.log("It will send all logs from this terminal to the logs slack channel in the Bhagat workspace");
 console.log("Use the on command to test if the logger is on");
 console.log("Click Ctrl C to stop the logger or type in exit");
@@ -14,7 +20,7 @@ request.post(
     {
         headers : { 'Content-type' : 'application/json' },
         url,
-        form : JSON.stringify({ text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Starting Logger . . ." }),
+        form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Starting Logger . . ." }),
     },
     (error, res, body) => null
 );
@@ -96,7 +102,7 @@ process.openStdin().addListener("data", data => {
         {
             headers : { 'Content-type' : 'application/json' },
             url,
-            form : JSON.stringify({ text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Running " + curDir + ">" + data }),
+            form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Running " + curDir + ">" + data }),
         },
         (error, res, body) => null
     );
@@ -112,7 +118,7 @@ process.openStdin().addListener("data", data => {
                 {
                     headers : { 'Content-type' : 'application/json' },
                     url,
-                    form : JSON.stringify({ text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + stderr }),
+                    form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + stderr }),
                 },
                 (error, res, body) => null
             );
@@ -124,7 +130,7 @@ process.openStdin().addListener("data", data => {
             {
                 headers : { 'Content-type' : 'application/json' },
                 url,
-                form : JSON.stringify({ text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + data.toString().trim() }),
+                form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + data.toString().trim() }),
             },
             (error, res, body) => null
         );
