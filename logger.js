@@ -51,18 +51,20 @@ process.openStdin().addListener("data", data => {
                 break;
 
             case '':
-                exec('cd', {
-                    cwd: curDir
-                }, (_, stdout, stderr) => {
-                    console.log();
-                    console.log('stdout:');
-                    console.log(stdout);
-                    console.log('stderr:');
-                    console.log(stderr);
-                });
+                if(process.platform === "win32")
+                    exec('cd', {
+                        cwd: curDir
+                    }, (_, stdout, stderr) => {
+                        console.log();
+                        console.log('stdout:');
+                        console.log(stdout);
+                        console.log('stderr:');
+                        console.log(stderr);
+                    });
                 break;
             case '..':
-                curDir = (process.platform === "win32"? curDir.split('\\'): curDir.split("/")).splice(0, curDir.split('\\').length - 1).join('\\');
+                const splitChar = process.platform === "win32"? '\\' : '/';
+                curDir = curDir.split(splitChar).splice(0, curDir.split(splitChar).length - 1).join(splitChar);
                 break;
 
             default:
