@@ -20,7 +20,7 @@ request.post(
     {
         headers : { 'Content-type' : 'application/json' },
         url,
-        form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Starting Logger . . ." }),
+        form : JSON.stringify({ attachments: [{ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Starting Logger . . ." }]}),
     },
     (error, res, body) => null
 );
@@ -102,7 +102,7 @@ process.openStdin().addListener("data", data => {
         {
             headers : { 'Content-type' : 'application/json' },
             url,
-            form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Running " + curDir + ">" + data }),
+            form : JSON.stringify({ attachments: [{ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": Running " + curDir + ">" + data }]}),
         },
         (error, res, body) => null
     );
@@ -118,7 +118,7 @@ process.openStdin().addListener("data", data => {
                 {
                     headers : { 'Content-type' : 'application/json' },
                     url,
-                    form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + stderr }),
+                    form : JSON.stringify({ attachments: [{ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + stderr }]}),
                 },
                 (error, res, body) => null
             );
@@ -130,7 +130,7 @@ process.openStdin().addListener("data", data => {
             {
                 headers : { 'Content-type' : 'application/json' },
                 url,
-                form : JSON.stringify({ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + data.toString().trim() }),
+                form : JSON.stringify({ attachments: [{ title, text: new Date().toString().split(' ').splice(0, 5).join(' ') + ": " + data.toString().trim() }]}),
             },
             (error, res, body) => null
         );
