@@ -4,6 +4,12 @@ const { exec } = require('child_process');
 const { url } = require('./url');
 
 const title = process.argv[2];
+let commands = process.argv[3];
+if(commands)
+    commands = commands.split(';');
+else
+    commands = [];
+let index = 0;
 
 
 console.log();
@@ -27,12 +33,17 @@ request.post(
 
 let curDir = __dirname;
 
-process.stdout.write(curDir + ">");
+process.stdout.write(curDir + ">" + ((index < commands.length)? commands[index]: ""));
 
 
 process.openStdin().addListener("data", data => {
 
     data = data.toString().trim();
+
+    if(index < commands.length) {
+        data = commands[index] + data;
+        index++;
+    }
 
     if(data === 'exit')
         process.exit();
@@ -88,7 +99,7 @@ process.openStdin().addListener("data", data => {
                 curDir = oldDir;
             }
             console.log();
-            process.stdout.write(curDir + ">");
+            process.stdout.write(curDir + ">" + ((index < commands.length)? commands[index]: ""));
         })
 
         return;
@@ -123,7 +134,7 @@ process.openStdin().addListener("data", data => {
                 (error, res, body) => null
             );
 
-        process.stdout.write(curDir + ">");
+        process.stdout.write(curDir + ">" + ((index < commands.length)? commands[index]: ""));
     }).stdout.on("data", data => {
         console.log(data.toString().trim());
         request.post(
